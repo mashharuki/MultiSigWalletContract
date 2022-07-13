@@ -130,4 +130,52 @@ contract MultiSigWallet {
     // イベントの発行
     emit Approve(msg.sender, _txId);
   }
+
+  /**
+   * 指定してIDのトランザクションの承認数を取得する。
+   * @param _txId トランザクションID
+   */
+  function _getApprovalCount(uint _txId) private view returns (uint count) {
+    // ループにより承認数を取得する。
+    for(uint i; i < owners.length; i++) {
+      // もし承認されていたらcountをインクリメントする。
+      if (approved[_txId][owners[i]]) {
+        count += 1;
+      }
+    }
+  }
+
+  /**
+   * トランザクションをブロードキャストするメソッド
+   * @param _txId トランザクションID
+   */
+  function execute(uint _txId) external txExists(_txId) notExecuted(_txId) {
+    // 閾値以上の承認が得られているかチェックする。
+    require(_getApprovalCount(_txId) >= required, "approvals < required");
+    // トランザクションデータを作成する。
+    Transaction storage transaction = transactions[_txId];
+    // 実行済みのフラグをオンにする
+    transaction.executed = true;
+    // トランザクションを実行する。
+    (bool success, ) = transaction.to.call{value: transaction.value}(
+      transaction.data
+    );
+    // トランザクションが成功したかチェックする。
+    require(success, "tx failid");
+    // イベントの発行
+    emit Execute(_txId);
+  }
+
+  /**
+   * トランザクションの承認を削除するメソッド
+   * @param _txId トランザクションID
+   */
+  function revoke(uint _txId) external onlyOwner txExists(_txId) notExecuted(_txId) {
+    // 承認されているかどうかチェックする
+    require(approved[_txId][msg.sender] = false);
+    // 承認済みのフラグをオフにする。
+    approved[_txId][msg.sender] = false;
+    // イベントの発行
+    emit Revoke(msg.sender, _txId);
+  }
 }
