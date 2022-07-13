@@ -23,7 +23,7 @@ contract MultiSigWallet {
   // 閾値
   uint public required;
   // トランザクションデータを格納する配列
-  Transaction[] public transations;
+  Transaction[] public transactions;
   
   // アドレスとowner権限の有無を紐付けるmap
   mapping(address => bool) public isOwner;
@@ -36,6 +36,12 @@ contract MultiSigWallet {
   event Approve(address indexed owner, uint indexed txId);
   event Revoke(address indexed owner, uint indexed txId);
   event Execute(uint indexed txId);
+
+  // 呼び出し元のアドレスがownerであるかチェックする修飾子
+  modifier onlyOwner() {
+    require(isOwner[msg.sender], "msg.sender must be owner address");
+    _;
+  }
 
   /**
    * コンストラクター
@@ -62,5 +68,31 @@ contract MultiSigWallet {
 
     // 閾値を設定
     required = _required;
+  }
+
+  /**
+   * 入金用のメソッド
+   */
+  receive() external payable {
+    // イベントの発行
+    emit Deposit(msg.sender, msg.value);
+  }
+
+  /**
+   * トランザクションデータを作成するメソッド
+   * @param _to 送金先アドレス
+   * @param _value 送金額
+   * @param _data バイトデータ
+   */
+  function submit(address _to, uint _value, bytes calldata _data) external onlyOwner {
+    // Transaction型のデータを作成して配列に格納する。
+    transactions.push(Transaction({
+      to: _to,
+      value: _value,
+      data: _data,
+      executed: false
+    }));
+    // イベントの発行
+    emit Submit(transactions.length - 1);
   }
 }
