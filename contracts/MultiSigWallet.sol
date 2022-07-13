@@ -43,6 +43,24 @@ contract MultiSigWallet {
     _;
   }
 
+  // 指定したIDに該当するトランザクションデータが存在するかチェックする修飾子
+  modifier txExists(uint _txId) {
+    require(_txId < transactions.length, "tx does not exist");
+    _;
+  }
+
+  // 承認ずみかチェックする修飾子
+  modifier notApproved(uint _txId) {
+    require(!approved[_txId][msg.sender], "tx already approved");
+    _;
+  }
+
+  // 指定したIDのトランザクションがブロードキャスト済みかチェックする修飾子
+  modifier notExecuted(uint _txId) {
+    require(!transactions[_txId].executed, "this tx already executed");
+    _;
+  }
+
   /**
    * コンストラクター
    * @param _owners owner用のアドレスの配列
@@ -94,5 +112,22 @@ contract MultiSigWallet {
     }));
     // イベントの発行
     emit Submit(transactions.length - 1);
+  }
+
+  /**
+   * 指定したIDのトランザクションを承認するメソッド
+   * @param _txId トランザクションID
+   */
+  function approve(uint _txId) 
+    external
+    onlyOwner
+    txExists(_txId)
+    notApproved(_txId)
+    notExecuted(_txId)
+  {
+    // 承認済みのフラグをオンにする。
+    approved[_txId][msg.sender] = true;
+    // イベントの発行
+    emit Approve(msg.sender, _txId);
   }
 }
