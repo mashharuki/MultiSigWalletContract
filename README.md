@@ -1,0 +1,2 @@
+# MultiSigWalletContract
+MultiSigWalletを実装したスマートコントラクト用のリポジトリになります。
