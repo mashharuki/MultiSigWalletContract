@@ -21,7 +21,10 @@
   },
   "homepage": "https://github.com/mashharuki/MultiSigWalletContract#readme",
   "dependencies": {
+    "@truffle/hdwallet-provider": "^2.0.11",
     "chai": "^4.3.6",
-    "chai-bn": "^0.3.1"
+    "chai-bn": "^0.3.1",
+    "dotenv": "^16.0.1",
+    "truffle-hdwallet-provider": "^1.0.17"
   }
 }

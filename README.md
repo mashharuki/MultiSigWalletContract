@@ -58,6 +58,11 @@ txData: {
   16 passing (10s)
 ```
 
+### 必要機能
+1. ウォレット作成画面
+2. ウォレット詳細画面(トランザクションデータ)
+3. ウォレット一覧画面(Home画面)
+
 ### 参考文献
 1. <a href="https://lab.miguelmota.com/ethereum-input-data-decoder/example/">InputDataDecoder</a>
 2. <a href="https://web3js.readthedocs.io/en/v1.2.11/web3-eth-abi.html">Web3.jsのドキュメント</a>

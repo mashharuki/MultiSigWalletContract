@@ -7,6 +7,8 @@
 const MultiSigWallet = artifacts.require("MultiSigWallet");
 
 module.exports = function (deployer, accounts) {
+  // ウォレットの名前
+  const walletName = "test";
   // owner用のアドレス
   const owners = [
     "0x3F1DDcCd05Fb848b448964A955e46D386fCF5742",
@@ -16,5 +18,5 @@ module.exports = function (deployer, accounts) {
   // 閾値
   const required = 2;
 
-  deployer.deploy(MultiSigWallet, owners, required);
+  deployer.deploy(MultiSigWallet, walletName, owners, required);
 };

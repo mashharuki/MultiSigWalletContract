@@ -18,6 +18,8 @@ contract MultiSigWallet {
     bool executed;
   }
 
+  // マルチシグウォレットの名前
+  string public walletName;
   // Ownerのアドレスを格納する配列
   address[] public owners;
   // 閾値
@@ -63,10 +65,11 @@ contract MultiSigWallet {
 
   /**
    * コンストラクター
+   * @param _name ウォレットの名前
    * @param _owners owner用のアドレスの配列
    * @param _required 閾値
    */
-  constructor(address[] memory _owners, uint _required) {
+  constructor(string memory _name, address[] memory _owners, uint _required) {
     // 引数の内容をチェックする。
     require(_owners.length > 0, "number of owner addresses must be more than zero!!");
     require(_required > 0 && _required <= _owners.length, "invalid required number of owners");
@@ -84,6 +87,8 @@ contract MultiSigWallet {
       owners.push(owner);
     }
 
+    // ウォレットの名前を設定
+    walletName = _name;
     // 閾値を設定
     required = _required;
   }

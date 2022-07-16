@@ -30,7 +30,7 @@ contract ("MultiSigWallet Contract tests!!", accounts => {
      */
     beforeEach (async () => {
         // MultiSigWalletコントラストのインスタンスを生成
-        multiSigWallet = await MultiSigWallet.new(owners, required, {
+        multiSigWallet = await MultiSigWallet.new("test", owners, required, {
             from: accounts[0],
             gas: 5000000
         });
@@ -57,6 +57,13 @@ contract ("MultiSigWallet Contract tests!!", accounts => {
             var req = await multiSigWallet.required();
             // チェックする。
             assert.equal(req, required, "number of required must be match!!");
+        });
+        // ウォレットの名前を確認する。
+        it ("confirm name of wallet", async () => {
+            // ウォレットの名前を取得する。
+            var name = await multiSigWallet.walletName();
+            // チェックする。
+            assert.equal(name, "test", "name of wallet must be match!!");
         });
     });
 
