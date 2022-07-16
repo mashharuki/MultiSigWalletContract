@@ -1,0 +1,27 @@
+{
+  "name": "multisigwalletcontract",
+  "version": "1.0.0",
+  "description": "MultiSigWalletを実装したスマートコントラクト用のリポジトリになります。",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mashharuki/MultiSigWalletContract.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mashharuki/MultiSigWalletContract/issues"
+  },
+  "homepage": "https://github.com/mashharuki/MultiSigWalletContract#readme",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "chai-bn": "^0.3.1"
+  }
+}

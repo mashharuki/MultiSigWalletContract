@@ -149,7 +149,7 @@ contract MultiSigWallet {
    * トランザクションをブロードキャストするメソッド
    * @param _txId トランザクションID
    */
-  function execute(uint _txId) external txExists(_txId) notExecuted(_txId) {
+  function execute(uint _txId) payable external txExists(_txId) notExecuted(_txId) {
     // 閾値以上の承認が得られているかチェックする。
     require(_getApprovalCount(_txId) >= required, "approvals < required");
     // トランザクションデータを作成する。
@@ -157,7 +157,7 @@ contract MultiSigWallet {
     // 実行済みのフラグをオンにする
     transaction.executed = true;
     // トランザクションを実行する。
-    (bool success, ) = transaction.to.call{value: transaction.value}(
+    (bool success, ) = payable(transaction.to).call{value: transaction.value}(
       transaction.data
     );
     // トランザクションが成功したかチェックする。
@@ -172,7 +172,7 @@ contract MultiSigWallet {
    */
   function revoke(uint _txId) external onlyOwner txExists(_txId) notExecuted(_txId) {
     // 承認されているかどうかチェックする
-    require(approved[_txId][msg.sender] = false);
+    require(approved[_txId][msg.sender] = true);
     // 承認済みのフラグをオフにする。
     approved[_txId][msg.sender] = false;
     // イベントの発行
