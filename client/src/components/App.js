@@ -11,6 +11,8 @@ import './App.css';
 import NoPage from './common/NoPage';
 import Web3Menu from "./common/Web3Menu";
 import Home from './Home';
+import Create from './Create';
+import Txs from './Txs';
 
 /**
  * Appコンポーネント
@@ -114,7 +116,7 @@ function App() {
           <AppBar position="static" color="transparent">
             <Toolbar>
               <Typography variant="h6" color="white" sx={{ flexGrow: 1 }}>
-                <strong>Web3App</strong>
+                <strong>MultiSig DApp</strong>
               </Typography>
               { /* ウォレットに接続していなければログインアイコンを表示する。 */ }
               <Typography variant="h6" color="inherit">
@@ -144,6 +146,8 @@ function App() {
             <Routes>
               <Route path="/" exact element={ <Home/> } />
               <Route path="/home" exact element={ <Home/> } />
+              <Route path="/create" exact element={ <Create/> } />
+              <Route path="/txs" exact element={ <Txs/> } />
               <Route path="*" exact element={ <NoPage/> } />
             </Routes>
           )}

@@ -45,12 +45,24 @@
   }
 }
 
+/* ボタン用のCSS */
+.cta-button {
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  min-width: 250px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 4px;
+}
+
 /* body要素全体に対するCSS */
 body {
   margin: 0 !important;
   height:100vh;
   width:100%;
-  background: linear-gradient(-45deg, #e0aa68, #e76e58);
+  background: linear-gradient(-45deg, #40d2fa, #3fb8f5);
   animation: gradientBG 15s ease infinite;
   background-size: 400% 400%;
 }

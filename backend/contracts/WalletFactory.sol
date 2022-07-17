@@ -32,11 +32,11 @@ contract WalletFactory {
         string memory _name, 
         address[] memory _owners, 
         uint _required
-    ) public returns 
-        (MultiSigWallet wallet) 
-    {
+    ) public {
         // インスタンスを生成
-        wallet = new MultiSigWallet(_name, _owners, _required);
+        MultiSigWallet wallet = new MultiSigWallet(_name, _owners, _required);
+        // 配列に追加する。
+        wallets.push(wallet);
         // イベントの発行
         emit WalletCreated(wallet, _name, _owners, _required);
     }

@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 // Menu用の配列
 const options = [
       'Home',
+      'Create'
 ];
     
 // Menuコンポーネント用の定数

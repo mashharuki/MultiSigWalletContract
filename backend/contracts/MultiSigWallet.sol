@@ -183,4 +183,25 @@ contract MultiSigWallet {
     // イベントの発行
     emit Revoke(msg.sender, _txId);
   }
+
+  /**
+   * ウォレットの名前を取得するメソッド
+   */
+  function getName() public view returns (string memory) {
+    return walletName;
+  }
+
+  /**
+   * ウォレットの閾値を取得するメソッド
+   */
+  function getRequired() public view returns (uint) {
+    return required;
+  }
+
+  /**
+   * ownerのアドレス数を取得するメソッド
+   */
+  function getOwnersCount() public view returns (uint) {
+    return owners.length;
+  }
 }
