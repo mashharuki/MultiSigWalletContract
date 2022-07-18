@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import detectEthereumProvider from '@metamask/detect-provider';
 import walletContract from "./../contracts/MultiSigWallet.json";
 import Web3 from "web3";
@@ -24,6 +25,11 @@ const WalletTable = (props) => {
     const [ownerCounts, setOwnerCounts] = useState(0);
     // 閾値を格納するステート変数
     const [req, setReq] = useState(0);
+
+    // トランザクション一覧画面に渡す要素
+    const toTx = {
+        addr: _wallet
+    };
 
     /**
      * 初期化メソッド
@@ -65,7 +71,9 @@ const WalletTable = (props) => {
                 if(column.label === "Address") {
                     return (
                         <TableCell key={column.id} align={column.align}>
-                            {_wallet}
+                            <Link to={"/txs"} state={toTx}>
+                                {_wallet}
+                            </Link>
                         </TableCell>
                     );
                 }

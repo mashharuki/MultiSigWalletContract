@@ -84,7 +84,6 @@ const Home = () => {
                 setIsZero(true);
             } else {
                 multiSigWallets = await instance.methods.getWallets(10, 0).call();
-                console.log("wallets:", multiSigWallets)
             }
             
             // コントラクトとアカウントの情報をステート変数に格納する。

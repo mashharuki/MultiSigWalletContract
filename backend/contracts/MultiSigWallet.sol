@@ -140,7 +140,7 @@ contract MultiSigWallet {
    * 指定してIDのトランザクションの承認数を取得する。
    * @param _txId トランザクションID
    */
-  function _getApprovalCount(uint _txId) private view returns (uint count) {
+  function _getApprovalCount(uint _txId) public view returns (uint count) {
     // ループにより承認数を取得する。
     for(uint i; i < owners.length; i++) {
       // もし承認されていたらcountをインクリメントする。
@@ -203,5 +203,12 @@ contract MultiSigWallet {
    */
   function getOwnersCount() public view returns (uint) {
     return owners.length;
+  }
+
+  /**
+   * トランザクションデータを全て取得するメソッド
+   */
+  function getTxs() public view returns (Transaction[] memory) {
+    return transactions;
   }
 }
