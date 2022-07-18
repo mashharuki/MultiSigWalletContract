@@ -112,12 +112,18 @@ const Home = () => {
             setIsLoading(true);
             // 入金額を定義する。
             const value = Web3.utils.toWei('0.05');
+            // プロバイダー情報を取得する。
+            const provider = await detectEthereumProvider();
+            // Web3オブジェクト作成
+            const web3 = new Web3(provider);
             // 入金する。
-            const transactionHash = await Web3.eth.sendTransaction({
-                                                        from: account,
-                                                        to: wallet,
-                                                        value: value
-                                                    });
+            const txHash = await web3.eth.sendTransaction(
+                {
+                    from: account,
+                    to: wallet,
+                    value: value
+                }
+            );
             setIsLoading(false);
             // popUpメソッドを呼び出す
             popUp(true);
