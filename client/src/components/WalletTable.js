@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import detectEthereumProvider from '@metamask/detect-provider';
 import walletContract from "./../contracts/MultiSigWallet.json";
 import Web3 from "web3";
+import ActionButton2 from './common/ActionButton2';
 // mui関連のコンポーネントのインポート
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -15,7 +16,7 @@ import TableRow from '@mui/material/TableRow';
 const WalletTable = (props) => {
 
     // propsから引数を取得する。
-    const { _wallet, _columns, row, index } = props;
+    const { _wallet, _columns, row, index, depositAction } = props;
 
     // ウォレットの名前を格納するステート変数
     const [name, setName] = useState(null); 
@@ -38,6 +39,9 @@ const WalletTable = (props) => {
         // Web3が使えるように設定する。
         const provider = await detectEthereumProvider();
         const web3 = new Web3(provider);
+        // アカウント情報を取得する。
+        const web3Accounts = await web3.eth.getAccounts();
+        // コントラクトをインスタンス化
         const instance = new web3.eth.Contract(walletContract.abi, _wallet);
         // ウォレットコントラクトの各情報を取得する。
         const wName = await instance.methods.getName().call();
@@ -96,6 +100,13 @@ const WalletTable = (props) => {
                     return (
                         <TableCell key={column.id} align={column.align}>
                            {req}
+                        </TableCell>
+                    )
+                }    
+                if(column.label === "Deposit") {
+                    return (
+                        <TableCell key={column.id} align={column.align}>
+                           <ActionButton2 buttonName="deposit" color="primary" clickAction={depositAction} />
                         </TableCell>
                     )
                 }        

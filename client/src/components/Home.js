@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from "react";
 import detectEthereumProvider from '@metamask/detect-provider';
 import FactoryContract from "./../contracts/WalletFactory.json";
+import WalletContract from "./../contracts/MultiSigWallet.json";
 import Web3 from "web3";
 import LoadingIndicator from './common/LoadingIndicator/LoadingIndicator';
 import WalletTable from './WalletTable';
@@ -27,6 +28,7 @@ const columns = [
     { id: 'name', label: 'Name', minWidth: 150, align: 'center'},
     { id: 'owners', label: 'Owners', minWidth: 150, align: 'center'},
     { id: 'required', label: 'Required', minWidth: 150, align: 'center'},
+    { id: 'deposit', label: 'Deposit', minWidth: 150, align: 'center'},
 ];
 
 /** 
@@ -34,10 +36,9 @@ const columns = [
  */
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
-    maxWidth: 1000,
+    maxWidth: 1400,
     backgroundColor: '#fde9e8'
 }));
-
 
 /**
  * Homeコンポーネント
@@ -57,6 +58,12 @@ const Home = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     // ローディングを表示するためのフラグ
     const [isLoading, setIsLoading] = useState(false);
+    // トランザクションが正常に処理された場合のフラグ
+    const [successFlg, setSuccessFlg] = useState(false);
+    // トランザクションが異常終了した場合のフラグ
+    const [failFlg, setFailFlg] = useState(false);
+    // ポップアップの表示を管理するフラグ
+    const [showToast, setShowToast] = useState(false);
 
     /**
      * コンポーネントが描画されたタイミングで実行する初期化関数
@@ -97,6 +104,32 @@ const Home = () => {
     };
 
     /**
+     * 入金用のメソッド
+     * @param wallet ウォレットアドレス
+     */
+    const depositAction = async (wallet) => {
+        try {
+            setIsLoading(true);
+            // 入金額を定義する。
+            const value = Web3.utils.toWei('0.05');
+            // 入金する。
+            const transactionHash = await Web3.eth.sendTransaction({
+                                                        from: account,
+                                                        to: wallet,
+                                                        value: value
+                                                    });
+            setIsLoading(false);
+            // popUpメソッドを呼び出す
+            popUp(true);
+        } catch(err) {
+            console.error("err:", err);
+            setIsLoading(false);
+            // popUpメソッドを呼び出す
+            popUp(false);
+        }
+    }
+
+    /**
      * ページングするための関数
      * @param e イベント内容
      * @param newPage 新しいページ
@@ -112,6 +145,33 @@ const Home = () => {
     const handleChangeRowsPerPage = (e) => {
         setRowsPerPage(e.target.value);
         setPage(0);
+    };
+
+    /**
+     * ポップアップ時の処理を担当するメソッド
+     * @param flg true：成功 false：失敗
+     */
+    const popUp = (flg) => {
+        // 成功時と失敗時で処理を分岐する。
+        if(flg === true) {
+            // ステート変数を更新する。
+            setSuccessFlg(true);
+            setShowToast(true);       
+            // 5秒後に非表示にする。
+            setTimeout(() => {
+                setSuccessFlg(false);
+                setShowToast(false);             
+            }, 5000);
+        } else {
+            // ステート変数を更新する。
+            setFailFlg(true);
+            setShowToast(true);     
+            // 5秒後に非表示にする。
+            setTimeout(() => {
+                setFailFlg(false);
+                setShowToast(false);
+            }, 5000);
+        }
     };
 
     // 副作用フック
@@ -174,7 +234,14 @@ const Home = () => {
                                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                     .map((row, i) => {
                                                         /* WalletTableコンポーネントに値を詰めて描画する。 */
-                                                        return <WalletTable _wallet={row} _columns={columns} row={row} index={i} />;
+                                                        return (
+                                                            <WalletTable 
+                                                                _wallet={row} 
+                                                                _columns={columns} 
+                                                                row={row} 
+                                                                index={i} 
+                                                                depositAction={(e) => {depositAction(row)}}
+                                                            />);
                                                 })}
                                             </TableBody>
                                         </Table>
@@ -194,6 +261,18 @@ const Home = () => {
                     )}
                 </StyledPaper>
             </Box>
+            {successFlg && (
+                /* 成功時のポップアップ */
+                <div id="toast" className={showToast ? "zero-show" : ""}>
+                    <div id="secdesc">Create Trasaction Successfull!!</div>
+                </div>
+            )}
+            {failFlg && (
+                /* 失敗時のポップアップ */
+                <div id="toast" className={showToast ? "zero-show" : ""}>
+                    <div id="desc">Create Trasaction failfull..</div>
+                </div>
+            )}
         </Grid>
     );
 }
