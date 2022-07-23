@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from "react";
 import detectEthereumProvider from '@metamask/detect-provider';
 import FactoryContract from "./../contracts/WalletFactory.json";
-import WalletContract from "./../contracts/MultiSigWallet.json";
+import WalletDialog from './common/Dialog';
 import Web3 from "web3";
 import LoadingIndicator from './common/LoadingIndicator/LoadingIndicator';
 import WalletTable from './WalletTable';
@@ -64,6 +64,12 @@ const Home = () => {
     const [failFlg, setFailFlg] = useState(false);
     // ポップアップの表示を管理するフラグ
     const [showToast, setShowToast] = useState(false);
+    // Dialogの表示を切り替えるフラグ
+    const [open, setOpen] = useState(false);
+    // deposit address
+    const [depositAddr, setDepositAddr] = useState(null);
+    // depozit amount
+    const [amount, setAmount] = useState(0);
 
     /**
      * コンポーネントが描画されたタイミングで実行する初期化関数
@@ -109,9 +115,13 @@ const Home = () => {
      */
     const depositAction = async (wallet) => {
         try {
+
+            setDepositAddr("");
+            setOpen(false);
             setIsLoading(true);
+
             // 入金額を定義する。
-            const value = Web3.utils.toWei('0.05');
+            const value = Web3.utils.toWei(amount);
             // プロバイダー情報を取得する。
             const provider = await detectEthereumProvider();
             // Web3オブジェクト作成
@@ -124,15 +134,38 @@ const Home = () => {
                     value: value
                 }
             );
+
+            setAmount(0);
             setIsLoading(false);
             // popUpメソッドを呼び出す
             popUp(true);
         } catch(err) {
             console.error("err:", err);
+
+            setDepositAddr("");
+            setAmount(0);
+            setOpen(false);
             setIsLoading(false);
             // popUpメソッドを呼び出す
             popUp(false);
         }
+    }
+
+    /**
+     * Open Dialog
+     * @param wallet MultoSig Wallet Addr
+     */
+     const handleOpen = (wallet) => {
+        setDepositAddr(wallet);
+        setOpen(true);
+    }
+
+    /**
+     * Close Dialog
+     */
+     const handleClose = () => {
+        setDepositAddr("");
+        setOpen(false);
     }
 
     /**
@@ -194,6 +227,15 @@ const Home = () => {
             justifyContent="center"
             alignItems="center"
         >
+            { /* Dialog */ } 
+            <WalletDialog 
+                open={open} 
+                amount={amount}
+                handleClose={(e) => {handleClose()}} 
+                depositAction={(e) => {depositAction(depositAddr)}} 
+                setAmountAction={(e) => {setAmount(e.target.value)}} 
+            />
+            { /* main content */ }
             <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3, mt: 10, height: '80vh'}}>
                 <StyledPaper sx={{my: 1, mx: "auto", p: 0, borderRadius: 4, marginTop: 4}}>
                     {isLoading ? (
@@ -246,7 +288,9 @@ const Home = () => {
                                                                 _columns={columns} 
                                                                 row={row} 
                                                                 index={i} 
-                                                                depositAction={(e) => {depositAction(row)}}
+                                                                depositAction={(e) => {
+                                                                    handleOpen(row)
+                                                                }}
                                                             />);
                                                 })}
                                             </TableBody>

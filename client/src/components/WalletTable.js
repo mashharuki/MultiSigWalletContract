@@ -33,7 +33,7 @@ const WalletTable = (props) => {
     };
 
     /**
-     * 初期化メソッド
+     * initialization
      */
     const init = async(_wallet) => {
         // Web3が使えるように設定する。
