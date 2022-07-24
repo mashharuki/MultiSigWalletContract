@@ -172,7 +172,7 @@ const Create = () => {
                                         m: 1,
                                     }}
                                 >
-                                    <p><strong>Please etner wallet info</strong></p>
+                                    <p><strong>Please enter wallet info</strong></p>
                                 </Grid>
                                 <Grid 
                                     container 

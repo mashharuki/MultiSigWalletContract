@@ -23,7 +23,7 @@ const WalletDialog = (props) => {
         <>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    Deposit to Wallt 
+                    Deposit to Wallet 
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
