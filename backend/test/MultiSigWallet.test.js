@@ -32,8 +32,10 @@ contract ("MultiSigWallet Contract tests!!", accounts => {
      * テスト実行前の準備　
      */
     beforeEach (async () => {
+        // deploy myToken contract
+        myToken = await MyToken.new("WalletDepositToken", "WDT");
         // MultiSigWalletコントラストのインスタンスを生成
-        multiSigWallet = await MultiSigWallet.new("test", owners, required, {
+        multiSigWallet = await MultiSigWallet.new("test", owners, required, myToken.address, {
             from: accounts[0],
             gas: 5000000
         });
@@ -75,10 +77,14 @@ contract ("MultiSigWallet Contract tests!!", accounts => {
      */
     describe ("receive test", () => {
         it("deposit", async () => {
-            // create myToken Contract
-            myToken = await MyToken.new("WalletDepositToken", "WDT");
             // value of deposit
             const value = web3.utils.toWei('0.05');
+            // execute a receive method
+            const txHash = await web3.eth.sendTransaction({
+                from: accounts[3],
+                to: myToken.address,
+                value: value
+            });
             // execute a receive method
             const transactionHash = await web3.eth.sendTransaction({
                 from: accounts[3],

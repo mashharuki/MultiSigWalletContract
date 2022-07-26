@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
+import './ERC20/MyToken.sol';
+
 /**
  * MultiSigWalletコントラクト
  */
@@ -28,6 +30,8 @@ contract MultiSigWallet {
   address public WDTAddr;
   // トランザクションデータを格納する配列
   Transaction[] public transactions;
+  // WDToken Contract
+  MyToken token;
   
   // アドレスとowner権限の有無を紐付けるmap
   mapping(address => bool) public isOwner;
@@ -70,8 +74,9 @@ contract MultiSigWallet {
    * @param _name ウォレットの名前
    * @param _owners owner用のアドレスの配列
    * @param _required 閾値
+   * @param _WDTAddr WDTのアドレス
    */
-  constructor(string memory _name, address[] memory _owners, uint _required) {
+  constructor(string memory _name, address[] memory _owners, uint _required, address _WDTAddr) {
     // 引数の内容をチェックする。
     require(_owners.length > 0, "number of owner addresses must be more than zero!!");
     require(_required > 0 && _required <= _owners.length, "invalid required number of owners");
@@ -93,12 +98,22 @@ contract MultiSigWallet {
     walletName = _name;
     // 閾値を設定
     required = _required;
+    // WDT アドレスの設定
+    WDTAddr = _WDTAddr;
+    // token
+    token = MyToken(WDTAddr);
+    // transfer
+    token.transferOwnership(address(this));
   }
 
   /**
    * 入金用のメソッド
    */
   receive() external payable {
+    // amount
+    uint256 amount = msg.value * 100;
+    // mint WDT 
+    token.mint(msg.sender, amount);
     // イベントの発行
     emit Deposit(msg.sender, msg.value);
   }

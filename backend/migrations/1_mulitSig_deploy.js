@@ -17,6 +17,8 @@ module.exports = function (deployer, accounts) {
   ];
   // 閾値
   const required = 2;
+  // WDTTokenトークンのアドレス
+  const WDTAddr = "0x73dfa08FCD0ffd2686d95274d9eD224a73c02f1e";
 
-  deployer.deploy(MultiSigWallet, walletName, owners, required);
+  deployer.deploy(MultiSigWallet, walletName, owners, required, WDTAddr);
 };

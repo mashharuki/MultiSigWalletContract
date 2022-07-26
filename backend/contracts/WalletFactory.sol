@@ -13,7 +13,7 @@ contract WalletFactory {
     uint256 constant maxLimit = 20;
 
     // インスタンスが生成された時のイベント
-    event WalletCreated (MultiSigWallet indexed wallet, string name, address[] owners, uint required);
+    event WalletCreated (MultiSigWallet indexed wallet, string name, address[] owners, uint required, address WDTAddr);
 
     /**
      * MultiSigWalletのインスタンス数を取得する関数
@@ -27,18 +27,20 @@ contract WalletFactory {
      * @param _name ウォレットの名前
      * @param _owners アドレスの配列
      * @param _required 閾値
+     * @param _WDTAddr WDTトークンのアドレス
      */
     function createWallet (
         string memory _name, 
         address[] memory _owners, 
-        uint _required
+        uint _required,
+        address _WDTAddr
     ) public {
         // インスタンスを生成
-        MultiSigWallet wallet = new MultiSigWallet(_name, _owners, _required);
+        MultiSigWallet wallet = new MultiSigWallet(_name, _owners, _required, _WDTAddr);
         // 配列に追加する。
         wallets.push(wallet);
         // イベントの発行
-        emit WalletCreated(wallet, _name, _owners, _required);
+        emit WalletCreated(wallet, _name, _owners, _required, _WDTAddr);
     }
 
     /**
