@@ -3,60 +3,83 @@ MultiSigWalletを実装したスマートコントラクト用のリポジトリ
 
 ### About Project 
 
-(日本文)
+(日本文)  
 暗号資産の送金をよりセキュアにするために複数のアドレスの承認を必要とするDAppを開発しました。  
 ユーザーによって異なる条件のマルチシグウォレットの好みで作成することが可能です。
 
-(英文)
+(英文)  
 We have developed a DApp that requires multiple address approvals to make the transfer of crypto assets more secure.  
 It can be created with a preference for multi-sig wallets with different conditions for any users.
 
 #### Inspiration
 
-(日本文)
+(日本文)  
 マルチシグウォレットの作成、承認、トランザクションの実行などこのアプリを最大限活用するためにはいくつかステップが必要となります。それらの機能を簡単に使ってもらえるように画面のデザインはなるべくシンプルにしました。
 
-(英文)
+(英文)  
 Several steps are required to get the most out of this application, such as creating a multi-sig wallet, approving, and executing transactions. We have kept the screen design as simple as possible to make it easy to use these functions.
 
 #### What it does
 
-(日本文)
+(日本文)  
+このMultiSigWalletには次の機能が実装されています。  
+1. Connect Wallet 
+2. Deposit for send amount
+3. Create MulitiSig Wallet
+4. Create Send Transaction
+5. approve Send Transaction
+6. execute Send Transaction
+7. revoke Send Transaction
 
-(英文)
+(英文)  
+The following fuctions are implemented in this MultiSigWallet
+1. Connect Wallet 
+2. Deposit for send amount
+3. Create MulitiSig Wallet
+4. Create Send Transaction
+5. approve Send Transaction
+6. execute Send Transaction
+7. revoke Send Transaction
 
 #### How we built it
 
-(日本文)
+(日本文)  
+フロントエンドはReact.jsとMuiを利用して開発しました。使用した主な言語はJavaScriptです。
+バックエンドにはTruffleを利用して開発しました。使用した言語はSolidityです。
 
-(英文)
+(英文)  
+The most difficult part was to integrate the back-end smart contract functionality into the front-end side. We carefully wrote test code to ensure smooth integration into the front end. We also developed the UI with the policy of making it thimble so that users can operate it intuitively, but this was also a challenge.
 
 #### Challenges we ran into
 
-(日本文)
+(日本文)  
+バックエンドであるスマートコントラクトの機能をフロントエンド側に組み込む点が一番難しかったです。スムーズにフロントエンドに組み込めるように入念にテストコードを記載しました。また、ユーザーが直感的に操作できるようにするためにUIはシンブルする方針で開発しましたがこの点も大変でした。
 
-(英文)
+(英文)  
+
 
 #### Accomplishments that we're proud of
 
-(日本文)
+(日本文)  
+Gnosis Safe社が開発したマルチシグウォレットほど高性能ではありませんが、0からマルチシグウォレットDAppを実装できた点が最も大きな成果だと考えています。また、今回の開発を通してフロント側のテンプレを作ることができたので今後の開発効率が格段に上がると考えています。この点も成果の一つです。
 
-(英文)
+(英文)  
+Although it is not as powerful as the multisig wallet developed by Gnosis Safe, we believe that the most significant achievement is that we were able to implement a multisig wallet DApp from scratch. In addition, through this development, we were able to create a template for the front side, which we believe will greatly improve the efficiency of future development. This is another achievement.
 
 #### What we learned
 
-(日本文)
+(日本文)  
 今回のMultiSigWalletDAppの開発を通して、React.jsとTruffleを用いたアプリケーション開発の基礎を学ぶことができました。また、ビットコインと異なりイーサリアムタイプのブロックチェーンにはマルチシグの機能が標準で実装されていないため独自で実装する必要がありましたがスマートコントラクトによる実装パターンを習得することができました。  
 
-(英文)
+(英文)  
 Through the development of the MultiSigWalletDApp, I was able to learn the basics of DApp development using React.js and Truffle. Also, unlike bitcoin, the ethereum-type blockchain does not have a standard implementation of the multisig function, so we had to implement it ourselves, but we were able to learn an implementation pattern using smart contracts.
 
 #### What's next for MultiSigWalletDApp
 
-(日本文)
+(日本文)  
 より多くのユーザーに使ってもらえるようにするためにDepositしてくれたユーザーのために一定のインセンティブを設定したいと考えています。具体的にはオリジナルのERC20 トークン か NFTを発行する機能の拡張を想定しています。また、対応するブロックチェーンの種類を増やしたいと考えております。 
 
-(英文)
+(英文)  
 We would like to set up certain incentives for users who Deposit in order to encourage more users to use the MultiSigWalletDApp. Specifically, we envision extending the ability to issue original ERC20 tokens or NFTs. We would also like to increase the number of blockchain types supported. 
 
 
