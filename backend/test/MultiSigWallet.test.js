@@ -8,22 +8,25 @@
 const truffleAssert = require("truffle-assertions");
 // コントラクトを読み込む
 const MultiSigWallet = artifacts.require("MultiSigWallet");
+const MyToken = artifacts.require("MyToken");
 
 /**
- * テストシナリオ
- * 2 of 3のマルチシグを想定
+ * test scenario
+ * 2 of 3 MultiSig
  */
 contract ("MultiSigWallet Contract tests!!", accounts => {
-    // owner用のアドレス
+    // owner addresses
     const owners = [
         accounts[0],
         accounts[1],
         accounts[2]
     ];
-    // 閾値
+    // required
     const required = 2;
-    // コントラクト用の変数
+    // multiSig Contract
     var multiSigWallet;
+    // MyToken Contract
+    var myToken;
 
     /**
      * テスト実行前の準備　
@@ -72,9 +75,11 @@ contract ("MultiSigWallet Contract tests!!", accounts => {
      */
     describe ("receive test", () => {
         it("deposit", async () => {
-            // 入金額を定義する。
+            // create myToken Contract
+            myToken = await MyToken.new("WalletDepositToken", "WDT");
+            // value of deposit
             const value = web3.utils.toWei('0.05');
-            // receiveメソッドを呼び出す
+            // execute a receive method
             const transactionHash = await web3.eth.sendTransaction({
                 from: accounts[3],
                 to: multiSigWallet.address,
@@ -86,8 +91,13 @@ contract ("MultiSigWallet Contract tests!!", accounts => {
             console.log("txData:", txData);
             // コントラクトの残高をチェックする。
             const contractBalance = await web3.eth.getBalance(multiSigWallet.address);
+            // amount of WDT 
+            const amount = 0.05 * 100;
+            // mint WDT
+            await myToken.mint(accounts[3], amount);
             // チェックする。
             assert.equal(value, contractBalance, "balance must be match!!");
+            assert.equal(amount, await myToken.balanceOf(accounts[3]), "WDT's balance must be match!!");
         });
     });
 

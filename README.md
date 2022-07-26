@@ -166,6 +166,14 @@ Summary
 > Final cost:          0.0073649250294597 ETH
 ```
 
+### WDT(WalletDepositToken) Info
+
+|network|address|
+|----|----|
+|goerli|0xEB1c2444b93D57A2914B977936f7023EA89fAC32|
+|munbai|0x045aa885e04dab32316eA0B39Cda9c966A5d9845|
+ 
 ### 参考文献
 1. <a href="https://lab.miguelmota.com/ethereum-input-data-decoder/example/">InputDataDecoder</a>
 2. <a href="https://web3js.readthedocs.io/en/v1.2.11/web3-eth-abi.html">Web3.jsのドキュメント</a>
+3. <a href="https://scrapbox.io/sushiether/web3.js_web3.eth.sendTransaction">Web3.js SendTransaction</a>

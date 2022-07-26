@@ -24,6 +24,8 @@ contract MultiSigWallet {
   address[] public owners;
   // 閾値
   uint public required;
+  // WDToken address
+  address public WDTAddr;
   // トランザクションデータを格納する配列
   Transaction[] public transactions;
   

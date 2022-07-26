@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from "react";
 import detectEthereumProvider from '@metamask/detect-provider';
 import FactoryContract from "./../contracts/WalletFactory.json";
+import MyTokenContract from "./../contracts";
 import WalletDialog from './common/Dialog';
 import Web3 from "web3";
 import LoadingIndicator from './common/LoadingIndicator/LoadingIndicator';
