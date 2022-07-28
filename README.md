@@ -56,7 +56,7 @@ The most difficult part was to integrate the back-end smart contract functionali
 バックエンドであるスマートコントラクトの機能をフロントエンド側に組み込む点が一番難しかったです。スムーズにフロントエンドに組み込めるように入念にテストコードを記載しました。また、ユーザーが直感的に操作できるようにするためにUIはシンブルする方針で開発しましたがこの点も大変でした。
 
 (英文)  
-
+The most difficult part was to integrate the back-end smart contract functionality into the front-end side. We carefully wrote test code to ensure smooth integration into the front end. We also developed the UI with the policy of making it thimble so that users can operate it intuitively, but this was also a challenge.
 
 #### Accomplishments that we're proud of
 
@@ -230,6 +230,9 @@ Summary
 > Total deployments:   1
 > Final cost:          0.0073649250294597 ETH
 ```
+
+## Demo Video Link
+ <a href="https://www.youtube.com/watch?v=romGtIu4oWI">https://www.youtube.com/watch?v=romGtIu4oWI</a>
 
 ### 参考文献
 1. <a href="https://lab.miguelmota.com/ethereum-input-data-decoder/example/">InputDataDecoder</a>

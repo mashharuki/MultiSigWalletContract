@@ -1,28 +1,26 @@
 /**
  * ============================================
- * MulitSigWalletコントラクト用のテストコード
+ * The Test Code for MulitSigWalletContract
  * ============================================
  */
 
-// モジュールのインポート
 const truffleAssert = require("truffle-assertions");
-// コントラクトを読み込む
 const MultiSigWallet = artifacts.require("MultiSigWallet");
 
 /**
- * テストシナリオ
- * 2 of 3のマルチシグを想定
+ * test
+ * 2-of-3 MultiSig Wallet
  */
 contract ("MultiSigWallet Contract tests!!", accounts => {
-    // owner用のアドレス
+    // owner's address
     const owners = [
         accounts[0],
         accounts[1],
         accounts[2]
     ];
-    // 閾値
+    // required
     const required = 2;
-    // コントラクト用の変数
+    // variable for MultiSigWallet Contract
     var multiSigWallet;
 
     /**

@@ -1,12 +1,12 @@
 /**
- * Truffle用の設定ファイル
+ * Truffle config file
  */
  
 const path = require("path");
 require('dotenv').config();
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const HDWalletProvider2 = require("@truffle/hdwallet-provider");
-// .envファイルから読み込み
+// read from .env file
 const {
   MNEMONIC, 
   ALCHEMY_APIKEY,
@@ -15,9 +15,9 @@ const {
 } = process.env;
 
 module.exports = {
-  // ビルドしたABIファイルの出力先
+  // bulid path for ABI json files
   contracts_build_directory: path.join(__dirname, "./../client/src/contracts"),
-  // ネットワーク
+  // config for networks
   networks: {
     develop: {
       host: "127.0.0.1",     // Localhost (default: none)
